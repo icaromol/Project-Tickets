@@ -10,7 +10,7 @@ export function create({ request, response, database }) {
   } = request.body;
 
   const ticket = {
-    ticket_id: randomUUID(),
+    id: randomUUID(),
     // Dados gerais do ticket
     company_name,
     website,
