@@ -39,7 +39,7 @@ export class Database {
   select(table, filters) {
     let data = this.#database[table] ?? [];
 
-    // Percorre cada linha para verificar se existe um filtro. Se houver um filtro, retorna, se não, não retorna.
+    // Percorre cada linha para verificar se existe um filtro. Se filtro positivo, retorna.
     if (filters) {
       data = data.filter((row) => {
         return Object.entries(filters).some(([key, value]) => {
@@ -48,5 +48,23 @@ export class Database {
       });
     }
     return data;
+  }
+
+  // Método para atualizar (update)
+  update(table, id, data) {
+    const rowIndex = this.#database[table]?.findIndex(
+      (row) => row.id === String(id)
+    );
+
+    if (rowIndex > -1) {
+      this.#database[table][rowIndex] = {
+        ...this.#database[table][rowIndex],
+        ...data,
+      };
+
+      this.#persist();
+      return true;
+    }
+    return false;
   }
 }

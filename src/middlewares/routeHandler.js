@@ -15,7 +15,9 @@ export function routeHandler(request, response) {
   if (route) {
     const routeParams = request.url.match(route.path); // Captura os parâmetros correspondentes à rota.
 
-    const { query } = routeParams.groups; // Extrai a query string capturada, se presente.
+    const { query, ...params } = routeParams.groups; // Extrai a query string capturada, se presente.
+
+    request.params = params;
 
     request.query = query ? extractQueryParams(query) : {}; // Se existe ele retorna a query, se não, retorna um objeto vazio.
 
